@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#101827">
+  <title>MONSTER RUSH</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">MR</span><span>MONSTER <b>RUSH</b></span></div>
+      <div class="resources"><span>◈ <b id="gold">1200</b></span><span>✦ <b id="gems">35</b></span></div>
+      <button class="icon-btn" id="pauseBtn" aria-label="一時停止">Ⅱ</button>
+    </header>
+
+    <main id="main">
+      <section class="page active" id="page-home">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow">YOUR ADVENTURE BEGINS</p>
+            <h1>未知なる世界へ。</h1>
+            <p>仲間を集め、育て、進化させよう。</p>
+            <button class="primary-btn" data-go="explore">探索に出発 <span>→</span></button>
+          </div>
+          <div class="hero-art" id="homeMonster"></div>
+          <div class="hero-glow"></div>
+        </div>
+        <div class="section-heading"><div><small>YOUR TEAM</small><h2>現在のチーム</h2></div><button class="text-btn" data-go="monsters">編成を確認 →</button></div>
+        <div class="team-row" id="homeTeam"></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-go="battle"><span class="quick-icon">⚔</span><b>アリーナ</b><small>CPUと対戦</small></button>
+          <button class="quick-card" data-go="育成"><span class="quick-icon">✧</span><b>トレーニング</b><small>仲間を強化</small></button>
+          <button class="quick-card" data-go="図鑑"><span class="quick-icon">▤</span><b>モンスター図鑑</b><small>発見した仲間</small></button>
+        </div>
+      </section>
+
+      <section class="page" id="page-battle">
+        <div class="page-title"><div><small>REAL-TIME ACTION</small><h1>バトル</h1></div><span class="pill">CPU BATTLE</span></div>
+        <div class="battle-layout">
+          <div class="battle-stage">
+            <canvas id="battleCanvas"></canvas>
+            <div class="stage-label"><span class="live-dot"></span> TRAINING ARENA</div>
+            <div class="battle-hud">
+              <div><b id="playerName">フレイガ</b><div class="hp-track"><i id="playerHpBar"></i></div><small id="playerHpText">100 / 100</small></div>
+              <div class="vs">VS</div>
+              <div class="enemy-hud"><b>ストーンビースト</b><div class="hp-track"><i id="enemyHpBar"></i></div><small id="enemyHpText">120 / 120</small></div>
+            </div>
+            <div class="battle-message" id="battleMessage">攻撃してバトルを開始しよう！</div>
+          </div>
+          <div class="battle-controls">
+            <div class="control-info"><b>操作</b><span>PC：WASD / スペース / J・K・L</span><span>スマホ：画面ボタン</span></div>
+            <div class="action-buttons">
+              <button class="action-btn attack" id="attackBtn"><b>攻撃</b><small>J / タップ</small></button>
+              <button class="action-btn dodge" id="dodgeBtn"><b>回避</b><small>Space</small></button>
+              <button class="action-btn skill" id="skillBtn"><b>スキル</b><small>K</small></button>
+              <button class="action-btn ultimate" id="ultimateBtn"><b>必殺技</b><small>L</small></button>
+            </div>
+            <div class="battle-footer"><span>必殺ゲージ</span><b id="gaugeText">0%</b></div><div class="gauge-track"><i id="gaugeBar"></i></div>
+            <button class="secondary-btn full" id="newBattleBtn">新しい対戦</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-monsters">
+        <div class="page-title"><div><small>MONSTER COLLECTION</small><h1>モンスター</h1></div><span class="pill" id="monsterCount">1 / 60</span></div>
+        <div class="monster-grid" id="monsterGrid"></div>
+        <div class="detail-panel" id="monsterDetail"><div class="empty-detail">モンスターを選択すると詳細が表示されます。</div></div>
+      </section>
+
+      <section class="page" id="page-training">
+        <div class="page-title"><div><small>GROW STRONGER</small><h1>育成</h1></div></div>
+        <div class="training-card">
+          <div class="training-art" id="trainingArt"></div>
+          <div><small class="eyebrow">ACTIVE MONSTER</small><h2 id="trainingName">フレイガ</h2><p id="trainingDesc">炎属性・高速近接型</p><div class="level-line">Lv.<b id="levelText">1</b> <span>EXP <b id="expText">0 / 100</b></span></div><div class="xp-track"><i id="xpBar"></i></div></div>
+        </div>
+        <div class="stat-grid" id="statGrid"></div>
+        <div class="training-actions"><button class="primary-btn" id="trainBtn">訓練する <span>＋20 EXP</span></button><p>訓練はゲーム内でいつでも実行できます。</p></div>
+      </section>
+
+      <section class="page" id="page-items">
+        <div class="page-title"><div><small>YOUR INVENTORY</small><h1>アイテム</h1></div></div>
+        <div class="inventory-summary"><div><small>GOLD</small><b>◈ <span id="gold2">1200</span></b></div><div><small>MAGIC STONE</small><b>✦ <span id="gems2">35</span></b></div></div>
+        <div class="section-heading"><div><small>ITEMS</small><h2>所持アイテム</h2></div></div>
+        <div class="item-list" id="itemList"></div>
+      </section>
+
+      <section class="page" id="page-explore">
+        <div class="page-title"><div><small>WILD LANDS</small><h1>探索</h1></div><span class="pill">FIELD</span></div>
+        <div class="region-grid" id="regionGrid"></div>
+        <div class="explore-note"><b>探索のヒント</b><p>地域を選んで探索を開始。素材を集めたり、野生モンスターを発見したりできます。戦闘せずに拠点へ戻ることも可能です。</p></div>
+        <button class="secondary-btn full" id="returnHomeBtn">拠点に戻る</button>
+      </section>
+
+      <section class="page" id="page-dex">
+        <div class="page-title"><div><small>FIELD GUIDE</small><h1>モンスター図鑑</h1></div><span class="pill" id="dexCount">1 DISCOVERED</span></div>
+        <div class="dex-progress"><div><b>発見率</b><span id="dexPercent">1.7%</span></div><div class="xp-track"><i id="dexBar"></i></div></div>
+        <div class="monster-grid" id="dexGrid"></div>
+      </section>
+
+      <section class="page" id="page-quests">
+        <div class="page-title"><div><small>MISSIONS</small><h1>クエスト</h1></div></div>
+        <div class="quest-card"><span class="quest-icon">Ⅰ</span><div><small>MAIN STORY · CHAPTER 1</small><h3>はじまりの森</h3><p>モンスターハブの外に広がる森を調査しよう。</p><small>報酬：ゴールド ×300 / 経験値 ×50</small></div><button class="small-btn" data-go="explore">挑戦</button></div>
+        <div class="quest-card"><span class="quest-icon">⚔</span><div><small>HUNT</small><h3>訓練アリーナ</h3><p>CPUとのバトルで戦い方を身につけよう。</p><small>報酬：ゴールド ×150 / 経験値 ×30</small></div><button class="small-btn" data-go="battle">挑戦</button></div>
+        <div class="quest-card"><span class="quest-icon">✦</span><div><small>COLLECTION</small><h3>仲間を知ろう</h3><p>モンスターの詳細画面を確認しよう。</p><small>報酬：魔石 ×5</small></div><button class="small-btn" data-go="monsters">確認</button></div>
+      </section>
+
+      <section class="page" id="page-shop">
+        <div class="page-title"><div><small>HUB MARKET</small><h1>ショップ</h1></div></div>
+        <div class="shop-card"><div class="shop-icon">✚</div><div><small>SUPPLY</small><h3>回復ポーション</h3><p>モンスターのHPを回復するアイテム。</p><b>◈ 100 G</b></div><button class="small-btn" id="buyPotionBtn">購入</button></div>
+        <div class="shop-card"><div class="shop-icon">✦</div><div><small>CRAFT MATERIAL</small><h3>魔石のかけら</h3><p>強化や生成に使用する素材。</p><b>◈ 250 G</b></div><button class="small-btn" id="buyGemBtn">購入</button></div>
+        <p class="muted-note">ショップの商品は今後の拡張で追加されます。</p>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-title"><div><small>CONFIGURATION</small><h1>設定</h1></div></div>
+        <div class="settings-list">
+          <label class="setting-row"><span><b>BGM</b><small>ゲーム音楽</small></span><input type="checkbox" id="bgmToggle" checked></label>
+          <label class="setting-row"><span><b>効果音</b><small>攻撃・操作音</small></span><input type="checkbox" id="sfxToggle" checked></label>
+          <label class="setting-row"><span><b>画面振動</b><small>バトル演出</small></span><input type="checkbox" id="shakeToggle" checked></label>
+          <div class="setting-row"><span><b>画質</b><small>端末に合わせて調整</small></span><select id="qualitySelect"><option>自動</option><option>高</option><option>標準</option><option>軽量</option></select></div>
+          <button class="setting-row danger-row" id="resetBtn"><span><b>セーブデータを初期化</b><small>この端末のデータを削除します</small></span><span>›</span></button>
+        </div>
+        <p class="muted-note">MONSTER RUSH · Browser Edition</p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" id="bottomNav">
+      <button class="nav-btn active" data-page="home"><span>⌂</span><small>ホーム</small></button>
+      <button class="nav-btn" data-page="battle"><span>⚔</span><small>バトル</small></button>
+      <button class="nav-btn" data-page="monsters"><span>◈</span><small>仲間</small></button>
+      <button class="nav-btn" data-page="training"><span>✧</span><small>育成</small></button>
+      <button class="nav-btn" data-page="explore"><span>⌖</span><small>探索</small></button>
+      <button class="nav-btn" data-page="more"><span>•••</span><small>その他</small></button>
+    </nav>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="pause-overlay" id="pauseOverlay"><div class="pause-box"><small>GAME PAUSED</small><h2>一時停止中</h2><p>ゲーム内の戦闘・探索処理は停止しています。</p><button class="primary-btn" id="resumeBtn">ゲームに戻る</button><button class="text-btn" id="pauseHomeBtn">ホームへ戻る</button></div></div>
+  </div>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
